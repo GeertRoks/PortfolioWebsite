@@ -14,14 +14,19 @@ const lightColor = {
   b: 214
 }
 
-let scrollposition;
+$(window).scroll(function () {
+    $('#mainphoto').css('opacity', 1 - $(window).scrollTop() / ($(window).innerHeight() * 0.9));
+    if ( $( window ).width() < 820) {
+      $('header').css('background', 'var(--primaryColor)');
+    } else {
+      $('header').css('background',"rgba(" + primaryColor.r + "," + primaryColor.g + "," + primaryColor.b + "," + $(window).scrollTop()/$(window).innerHeight() +")");
+    }
 
-window.addEventListener('scroll', function(e) {
-  scrollposition = window.scrollY;
-  document.getElementsByTagName('header')[0].style.backgroundColor = "rgba(" + primaryColor.r + "," + primaryColor.g + "," + primaryColor.b + "," + scrollposition/window.innerHeight +")";
-  if (document.getElementsByClassName('selectednav')[0])
-    document.getElementsByClassName('selectednav')[0].style.backgroundColor = 'rgba(' + lightAccent.r + ', ' + lightAccent.g + ', ' + lightAccent.b + ', ' + scrollposition/window.innerHeight + ')';
-
+    if($(window).scrollTop()/$(window).innerHeight() <= 0.30 ) {
+      $(".selectednav").css({color: "var(--lightColor)"});
+    } else {
+      $(".selectednav").removeAttr('style');
+    }
 });
 
 $('#arrowdown').on('click', function(){
@@ -30,6 +35,6 @@ $('#arrowdown').on('click', function(){
 
 window.scrollContent = function() {
     $('html, body').animate({
-      scrollTop: $('#content').offset().top
+      scrollTop: $('.wrapperContent').offset().top
     }, 500);
 }

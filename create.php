@@ -1,44 +1,47 @@
-
-	<?php
+<?php
+	require_once 'templates/header.php';
 	require_once 'classes/entry.php';
 
 	if (isset($_POST['publishing'])) {
 
 		$entry = new Entry();
 		$entry->createNewFromPOST($_POST);
-
 		$entry->SqlInsertEntry();
 ?>
+
 	<a href="single.php?entry_id=<?php echo $entry->getId(); ?>">View Entry</a>
 <?php
 	}
 	?>
-						<!-- Post -->
-							<article class="post">
-								<header>
-									<div class="title">
-										<h2><a href="#">Magna sed adipiscing</a></h2>
-										<p>Lorem ipsum dolor amet nullam consequat etiam feugiat</p>
-									</div>
-								</header>
-								<div id="create_form">
-									<form action="create.php" method="POST">
 
-									<label for="">Title</label>
-									<input type="text" name="entry_title" id="title" />
+<div class="wrapperContent">
+	<section class="content">
+		<article>
 
-									<label for="">Author</label>
-									<input type="text" name="entry_author" id="author" />
+			<div id="create_form">
+				<form action="create.php" method="POST">
 
-									<label for="">Excerpt</label>
-									<textarea name="entry_excerpt" id="title" cols="30" rows="10"></textarea>
+				<label for="">Title</label> <br>
+				<input type="text" name="entry_title" id="title" maxlength="35"/> <br>
 
-									<label for="">Content</label>
-									<textarea name="entry_content" id="title" cols="30" rows="10"></textarea>
+				<label for="">Author</label><br>
+				<input type="text" name="entry_author" id="author" maxlength="20"/><br>
 
-									<input type="hidden" name="publishing" />
+				<label for="">Excerpt</label><br>
+				<textarea name="entry_excerpt" id="title" cols="30" rows="10" maxlength="500"></textarea><br>
 
-									<input type="submit" name="submit" id="submit" value="Publish" />
-									</form>
-								</div>
-							</article>
+				<label for="">Content</label><br>
+				<textarea name="entry_content" id="title" cols="30" rows="10" maxlength="5000"></textarea><br>
+
+				<input type="hidden" name="publishing" /><br>
+
+				<input type="submit" name="submit" id="submit" value="Publish" /><br>
+				</form>
+			</div>
+		</article>
+	</section>
+</div>
+
+<?php
+include_once "templates/footer.php"
+?>

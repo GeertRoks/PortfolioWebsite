@@ -15,11 +15,11 @@ class Entry {
     }
 
     public function createNew( $author, $title, $excerpt, $content ) {
-        $this->setByParams( -1, date("d.m.Y h:m"), $author, $title, $excerpt, $content);
+        $this->setByParams( -1, date("M Y"), $author, $title, $excerpt, $content);
     }
 
     public function createNewFromPOST( $post ) {
-        //print_r($post);
+        print_r($post);
         $this->createNew(
             $post['entry_author'],
             $post['entry_title'],
@@ -58,7 +58,7 @@ class Entry {
 
 
         $query = '
-            INSERT INTO entries (
+            INSERT INTO articles (
                 entry_author, entry_date, entry_excerpt, entry_title,
                 entry_content)
             VALUES (
@@ -77,7 +77,7 @@ class Entry {
         //print_r($this->error);
 
         $query = '  SELECT entry_id
-                    FROM entries
+                    FROM articles
                     WHERE entry_author= :entry_author
                     ORDER BY entry_id
                     DESC LIMIT 1;';
@@ -101,7 +101,7 @@ class Entry {
     public function SqlSelectEntryById( $entry_id ) {
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $query = 'SELECT * FROM entries WHERE entry_id= :entry_id;';
+        $query = 'SELECT * FROM articles WHERE entry_id= :entry_id;';
 
         $stmt = $this->dbh->prepare($query);
         $result = $stmt->execute(array(
@@ -120,7 +120,7 @@ class Entry {
     }
 
     public function SqlUpdateEntryById( $entry_id ) {
-        $query = '  UPDATE entries SET
+        $query = '  UPDATE articles SET
                     entry_author = :entry_author,
                     entry_title = :entry_title,
                     entry_content = :entry_content,

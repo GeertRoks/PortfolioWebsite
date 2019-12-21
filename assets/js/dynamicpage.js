@@ -1,62 +1,44 @@
-// $(function() {
-//
-//     var newHash      = "",
-//         $mainContent = $("#content-inner"),
-//         $pageWrap    = $("#page-wrap"),
-//         baseHeight   = 0,
-//         $el;
-//
-//     $pageWrap.height($pageWrap.height());
-//     baseHeight = $pageWrap.height() - $mainContent.height();
-//
-//     $("nav").delegate("a", "click", function() {
-//         window.location.hash = $(this).attr("href");
-//         return false;
-//     });
-//
-//     $(window).bind('hashchange', function(){
-//
-//         newHash = window.location.hash.substring(1);
-//
-//         if (newHash) {
-//             $mainContent
-//                 .find("#about")
-//                 .fadeOut(200, function() {
-//                     $mainContent.hide().load(newHash + " #about", function() {
-//                         $mainContent.fadeIn(200, function() {
-//                             $pageWrap.animate({
-//                                 height: baseHeight + $mainContent.height() + "px"
-//                             });
-//                         });
-//                         $("nav a").removeClass("selectednav");
-//                         $("nav a[href='"+newHash+"']").addClass("selectednav");
-//                     });
-//                 });
-//         };
-//
-//     });
-//
-//     $(window).trigger('hashchange');
-//
-// });
+let postid;
 
-$(document).ready(function(){
-  //set trigger and container values
-  var trigger = $('header a'),
-      container = $('#content_inner');
+function loadContent(hash) {
 
-  //fire on click
-  trigger.on('click', function(){
-    //set $this for reuse. Set target from data attribute
-    var $this = $(this),
-        target = $this.data('target');
+  if ( $( window ).width() < 820 && $(".links").is(":visible")) {
+    navHamburgerCollapse();
+  }
+  console.log("loadContent incoming Hash: " + hash);
+  var container = $('.content');
 
+  if (hash === "") {
+    hash = 'home';
+  }
+
+$('nav ul li a').removeClass('selectednav');
+  if (hash === "post") {
+    $('*[data-target="projects"]').addClass("selectednav");
+    console.log(postid);
+    container.load('content/post.php?entry_id=' + postid);
+  } else if (hash === "create") {
+    window.location.pathname = 'create.php';
+  } else {
+    if (hash != 'home') {
+      $('*[data-target=' + hash + ']').addClass("selectednav");
+    }
     scrollContent();
+    container.load('content/' + hash + '.php');
+  }
+}
+$(window).on('hashchange', function() {
+  loadContent(location.hash.slice(1));
+});
 
-    //Load target into page
-    container.load(target + '.php');
-
-    //stop normal link behavoir
+$(document).ready(function () {
+  $(document).on('click', '.post', function() {
+    postid = $(this).data('id');
+    window.location.hash = 'post';
     return false;
   });
+  //TODO: Change pathname when published
+  if ($(".content").html().length > 0 && window.location.pathname != "/Portfoliowebsite/create.php") {
+     loadContent(location.hash.slice(1));
+   }
 });

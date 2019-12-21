@@ -6,13 +6,12 @@ require_once 'classes/entry.php';
 ?>
 
 	<!-- Content -->
-  <section id="content">
-    <div id="content_inner">
-      <?php
-        require 'home.php';
-      ?>
-    </div>
-  </section>
+  <div class="wrapperContent">
+    <section class="content">
+
+    </section>
+  </div>
+
 <?php
 
 require 'templates/footer.php';
